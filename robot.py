@@ -5,7 +5,10 @@ class Robot:
 	def __init__(self, position):
 		self.position = position
 
-	def move(self, direction, nombre_de_pas = 1):
+	def bouger(self, direction, nombre_de_pas = 1):
+		pass
+
+	def mouvement_possible(self, direction, carte):
 		pass
 
 

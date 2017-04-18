@@ -19,7 +19,6 @@ def charger_cartes():
 			nom_carte = nom_fichier[:-3].lower()
 			carte = Carte(nom_carte, nom_fichier)
 			cartes.append(carte)
-	print(cartes)
 	return cartes
 
 # Création d'une carte, à compléter
@@ -32,12 +31,14 @@ for i, carte in enumerate(liste_cartes):
 	print("  {} - {}".format(i + 1, carte.nom))
 
 	# affiche carte
-	print(liste_cartes[i].contenu)
-	print(liste_cartes[i].nom_de_fichier)
+	print(carte.contenu)	
+	print("Nom de fichier :", carte.nom_de_fichier)	
+	print("Position robot :", carte.donner_position_robot())
+	print("Nombre lignes :", carte.nombre_lignes)
+	print("Nombre colonnes :", carte.nombre_colonnes)
 	
-	print(carte.labyrinthe)
-	print('******************************')
-
+	# print(carte.labyrinthe)
+	
 	
 # Si il y a une partie sauvegardée, on l'affiche, à compléter
 
