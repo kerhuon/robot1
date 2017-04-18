@@ -1,0 +1,27 @@
+ROBOC --> main()
+
+***********************
+ROBOT
+attributs :
+(x, y)	position, (0, 0) étant en haut à gauche
+
+méthodes :
+bouger(direction, nombre_de_pas)
+
+
+
+***********************
+CARTE
+attributs :
+labyrinthe (liste de n liste, correspondant à n lignes)
+contenu (chaine fabriquée depuis le fichier)
+
+
+méthodes :
+TODO
+@classmethod : importer_carte(nom_de_fichier)
+sauvegarder_carte (json)
+
+JOURNAL DE BORD
+TODO
+changer méthodes de classe creer_labyrinthe et creer_chaine en properties
