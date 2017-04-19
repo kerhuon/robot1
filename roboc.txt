@@ -13,17 +13,24 @@ bouger(direction, nombre_de_pas)
 ***********************
 CARTE
 attributs :
-labyrinthe (liste de n liste, correspondant à n lignes)
-contenu (chaine fabriquée depuis le fichier)
 nom
 nom_de_fichier
+contenu (chaine brute initialisée à partir de la méthode charger(fichier.txt))
+liste_contenu (liste de n listes contenant chaque caractère ligne par ligne, initialisée par méthode charger_comme_liste	(fichier.txt))
+
+properties :
+position_robot (depuis property labyrinthe) // REMARQUE : aurait pu se faire depuis liste_contenu
+nombre_lignes (depuis liste_contenu)
+nombre_colonnes (depuis property labyrinthe) // REMARQUE : aurait pu se faire depuis liste_contenu
 
 
 méthodes :
+charger(): fichier.txt --> attribut contenu (initialisation uniquement)
+charger_comme_liste() : fichier.txt --> attribut liste_contenu (initialisation uniquement)
+
 TODO
-@classmethod : importer_carte(nom_de_fichier)
 sauvegarder_carte (json)
 
 JOURNAL DE BORD
 TODO
-changer méthodes de classe creer_labyrinthe et creer_chaine en properties
+
