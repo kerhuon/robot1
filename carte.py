@@ -1,5 +1,7 @@
 # -*-coding:Utf-8 -*
 
+from position import Position
+
 class Carte:
 
 	"""Classe représentant le labyrinthe (modèle) et la carte (vue)."""
@@ -8,80 +10,62 @@ class Carte:
 
 	
 	REPERTOIRE_CARTES = "cartes/"
+	ROBOT = "X"
 
 	def __init__(self, nom, nom_de_fichier):
 		self.nom = nom
 		self.nom_de_fichier = nom_de_fichier
+
+		# Contenu brut sous forme de chaine, permet l'affichage pour le joueur
+		self.contenu = self.charger()
+
+		# Contenu de la carte sous forme de liste de n listes (correspondant à n lignes).
+		# De la forme : [['OOOOOO'], ['O   .X '], ['O    U O']]
+		self.liste_contenu = self.charger_comme_liste()
 		
 	def __repr__(self):
 		return "<Carte {}>".format(self.nom)
 
-	def donner_position_robot(self):
-		numero_ligne = 0		
-		for ligne in self.labyrinthe:
-			numero_colonne = 0
+	@property
+	def position_robot(self):
+		position = Position
+		position.ligne = 0		
+		for ligne in self.liste_contenu:
+			position.colonne = 0
 			for element in ligne:
-				if element == "robot":
-					return [numero_ligne, numero_colonne]
-				numero_colonne += 1
-			numero_ligne += 1
+				if element == Carte.ROBOT:
+					return position
+				position.colonne += 1
+			position.ligne += 1
 
 	@property
 	def nombre_lignes(self):
+		"""Nombre de lignes de la carte"""
 		return len(self.liste_contenu)
 
 	@property
 	def nombre_colonnes(self):
-		return len(self.labyrinthe[0])
-
-	@property
-	def contenu(self):
-		"""Contenu brut sous forme de chaine, permet l'affichage pour le joueur"""
+		"""Nombre de colonnes de la carte"""
+		return len(self.liste_contenu[0])-1	#on retire le \n
+	
+	def charger(self):
+		"""Depuis le fichier, contenu brut sous forme de chaine, permet l'affichage pour le joueur"""
 		fichier = open(Carte.REPERTOIRE_CARTES + self.nom_de_fichier, 'r')
 		lecture = fichier.read()
 		fichier.close()
 		return lecture
 
-	@property
-	def liste_contenu(self):
-		"""Contenu sous forme de liste de n listes (correspondant à n lignes)"""
-		chemin_complet = Carte.REPERTOIRE_CARTES + self.nom_de_fichier
-		fichier = open(chemin_complet, "r")
+	def charger_comme_liste(self):
+		"""Depuis le fichier, contenu de la carte sous forme de liste de n listes (correspondant à n lignes).
+		De la forme : [['O', 'O', 'O', 'O', 'O', O'], ['O', ' ', ' ', ' ', '.', 'X', ' '], etc...]"""
+		fichier = open(Carte.REPERTOIRE_CARTES + self.nom_de_fichier, 'r')
 		lecture =  fichier.readlines()
 		fichier.close()
-		return lecture
+		liste = []
+		for ligne in lecture:
+			liste.append([element for element in ligne])
+		return liste
 
-	@property
-	def labyrinthe(self):
-		"""Objet labyrinthe sous forme de liste de listes.
-			Valeurs possibles : mur, vide, sortie, robot, porte..."""	
-		labyrinthe = []
-		for numero_ligne in range(self.nombre_lignes):
-			ligne = []
-			for element in self.liste_contenu[numero_ligne]:
-				if element == "O": ligne.append("mur")
-				if element == " ": ligne.append("vide")
-				if element == "U": ligne.append("sortie")
-				if element == "X": ligne.append("robot")
-				if element == ".": ligne.append("porte")
-			labyrinthe.append(ligne)		
-		return labyrinthe
-
-	@classmethod
-	def creer_chaine(cls, liste):
-		"""Renvoie une chaine de caractères (qui composera le fichier carte.txt)
-		à partir d'un objet labyrinthe"""
-		nb_lignes = len(liste)
-		chaine = ''
-		for ligne in liste:
-			for element in ligne:
-				if element =="mur": chaine += "O"
-				if element =="vide": chaine += " "
-				if element =="robot": chaine += "X"
-				if element =="porte": chaine += "."
-				if element =="sortie": chaine += "U"
-			chaine += "\n"
-		return chaine
 
 	
 
