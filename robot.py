@@ -1,9 +1,12 @@
 # -*-coding:Utf-8 -*-
-import position
+from carte import Carte
+from position import Position
+
 class Robot:
 	"""Classe Robot"""
 	def __init__(self, position):
-		self.position = position
+		# Attention ne pas faire self.position = position car passage par référence !
+		self.position = Position(position.ligne, position.colonne)	
 
 	def __repr__(self):
 		return "Robot à la position ({}, {})".format(self.position.ligne, self.position.colonne)
@@ -19,13 +22,15 @@ class Robot:
 			elif direction == "o" and self.mouvement_possible(carte, "o"):
 				self.position.colonne -= 1
 			else:
-				pass
+				print("MOUVEMENT INTERDIT")
+			carte.actualiser_liste_contenu(self.position)
+			carte.afficher_liste_contenu()
 
 	def mouvement_possible(self, carte, direction = "n"):
-		condition_est = (carte.liste_contenu[self.position.ligne][self.position.colonne - 1] != "O")
-		condition_ouest = (carte.liste_contenu[self.position.ligne][self.position.colonne +1] != "O")
-		condition_nord = (carte.liste_contenu[self.position.ligne - 1][self.position.colonne] != "O")
-		condition_sud = (carte.liste_contenu[self.position.ligne + 1][self.position.colonne] != "O")
+		condition_est = (carte.liste_contenu[self.position.ligne][self.position.colonne - 1] != Carte.MUR)
+		condition_ouest = (carte.liste_contenu[self.position.ligne][self.position.colonne +1] != Carte.MUR)
+		condition_nord = (carte.liste_contenu[self.position.ligne - 1][self.position.colonne] != Carte.MUR)
+		condition_sud = (carte.liste_contenu[self.position.ligne + 1][self.position.colonne] != Carte.MUR)
 		borne_nord = (self.position.ligne == 0)
 		borne_sud = (self.position.ligne == carte.nombre_lignes - 1)
 		borne_est = (self.position.colonne == carte.nombre_colonnes - 1)

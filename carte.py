@@ -11,6 +11,10 @@ class Carte:
 	
 	REPERTOIRE_CARTES = "cartes/"
 	ROBOT = "X"
+	VIDE = " "
+	MUR = "O"
+	PORTE = "."
+	SORTIE = "U"
 
 	def __init__(self, nom, nom_de_fichier):
 		self.nom = nom
@@ -20,7 +24,7 @@ class Carte:
 		self.contenu = self.charger()
 
 		# Contenu de la carte sous forme de liste de n listes (correspondant à n lignes).
-		# De la forme : [['OOOOOO'], ['O   .X '], ['O    U O']]
+		# De la forme : [['O', 'O', 'O', 'O', 'O', O'], ['O', ' ', ' ', ' ', '.', 'X', ' '], etc...]
 		self.liste_contenu = self.charger_comme_liste()
 		
 	def __repr__(self):
@@ -28,15 +32,16 @@ class Carte:
 
 	@property
 	def position_robot(self):
-		position = Position
-		position.ligne = 0		
+		"""Renvoie un objet de classe Position contenant la position du robot"""
+		pos = Position
+		pos.ligne = 0		
 		for ligne in self.liste_contenu:
-			position.colonne = 0
+			pos.colonne = 0
 			for element in ligne:
 				if element == Carte.ROBOT:
-					return position
-				position.colonne += 1
-			position.ligne += 1
+					return pos
+				pos.colonne += 1
+			pos.ligne += 1
 
 	@property
 	def nombre_lignes(self):
@@ -55,6 +60,10 @@ class Carte:
 		fichier.close()
 		return lecture
 
+	def oter_robot(self):
+		"""S'applique à list_contenu, ôte le robot et le remplace par un espace"""
+		self.liste_contenu[self.position_robot.ligne][self.position_robot.colonne] = Carte.VIDE
+
 	def charger_comme_liste(self):
 		"""Depuis le fichier, contenu de la carte sous forme de liste de n listes (correspondant à n lignes).
 		De la forme : [['O', 'O', 'O', 'O', 'O', O'], ['O', ' ', ' ', ' ', '.', 'X', ' '], etc...]"""
@@ -65,6 +74,19 @@ class Carte:
 		for ligne in lecture:
 			liste.append([element for element in ligne])
 		return liste
+
+	def actualiser_liste_contenu(self, nouvelle_position):
+		self.liste_contenu = self.charger_comme_liste()
+		self.oter_robot()
+		self.liste_contenu[nouvelle_position.ligne][nouvelle_position.colonne] = Carte.ROBOT	# On affecte nouvelle position robot
+		
+	def afficher_liste_contenu(self):
+		for ligne in self.liste_contenu:
+			chaine=''
+			for element in ligne[:-1]:	# on ignore le \n de fin de ligne
+				chaine+=element
+			print(chaine)
+
 
 
 	

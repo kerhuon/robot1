@@ -35,7 +35,7 @@ fichier_logo = open("logo.txt", 'r')
 logo = fichier_logo.read()
 fichier_logo.close()
 print(logo)
-print("\n  BIENVENUE DANS LE JEU DU ROBOT\n")
+print("\nBIENVENUE DANS LE JEU DU ROBOT\n")
 
 # Création d'une carte, à compléter
 
