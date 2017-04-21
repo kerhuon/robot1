@@ -11,6 +11,8 @@ class Position():
 		return "({}, {})".format(self.ligne, self.colonne)
 
 	def add(self, direction):
+		"""Just for fun.
+		Usage : position.add("n")"""
 		if direction == "n":
 			self.ligne -= 1
 		elif direction == "s":

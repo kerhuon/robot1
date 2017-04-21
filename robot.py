@@ -1,4 +1,5 @@
 # -*-coding:Utf-8 -*-
+import sys
 from carte import Carte
 from position import Position
 
@@ -23,17 +24,23 @@ class Robot:
 				self.position.colonne -= 1
 			else:
 				print("MOUVEMENT INTERDIT")
+			if self.position.ligne == carte.position_sortie.ligne and self.position.colonne == carte.position_sortie.colonne:
+				carte.actualiser_liste_contenu(self.position)
+				carte.afficher_liste_contenu()				
+				print("\nFélicitations ! Vous avez gagné !")
+				sys.exit(0)
 			carte.actualiser_liste_contenu(self.position)
 			carte.afficher_liste_contenu()
+			
 
 	def mouvement_possible(self, carte, direction = "n"):
-		condition_est = (carte.liste_contenu[self.position.ligne][self.position.colonne - 1] != Carte.MUR)
-		condition_ouest = (carte.liste_contenu[self.position.ligne][self.position.colonne +1] != Carte.MUR)
+		condition_est = (carte.liste_contenu[self.position.ligne][self.position.colonne + 1] != Carte.MUR)
+		condition_ouest = (carte.liste_contenu[self.position.ligne][self.position.colonne - 1] != Carte.MUR)
 		condition_nord = (carte.liste_contenu[self.position.ligne - 1][self.position.colonne] != Carte.MUR)
 		condition_sud = (carte.liste_contenu[self.position.ligne + 1][self.position.colonne] != Carte.MUR)
 		borne_nord = (self.position.ligne == 0)
-		borne_sud = (self.position.ligne == carte.nombre_lignes - 1)
-		borne_est = (self.position.colonne == carte.nombre_colonnes - 1)
+		borne_sud = (self.position.ligne == carte.nombre_lignes)
+		borne_est = (self.position.colonne == carte.nombre_colonnes)
 		borne_ouest = (self.position.colonne == 0)
 		if direction == "n":
 			return not borne_nord and condition_nord

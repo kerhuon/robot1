@@ -26,7 +26,7 @@ class Carte:
 		# Contenu de la carte sous forme de liste de n listes (correspondant à n lignes).
 		# De la forme : [['O', 'O', 'O', 'O', 'O', O'], ['O', ' ', ' ', ' ', '.', 'X', ' '], etc...]
 		self.liste_contenu = self.charger_comme_liste()
-		
+
 	def __repr__(self):
 		return "<Carte {}>".format(self.nom)
 
@@ -39,6 +39,19 @@ class Carte:
 			pos.colonne = 0
 			for element in ligne:
 				if element == Carte.ROBOT:
+					return pos
+				pos.colonne += 1
+			pos.ligne += 1
+
+	@property
+	def position_sortie(self):
+		"""Renvoie un objet de classe Position contenant la position de la sortie"""
+		pos = Position
+		pos.ligne = 0		
+		for ligne in self.liste_contenu:
+			pos.colonne = 0
+			for element in ligne:
+				if element == Carte.SORTIE:
 					return pos
 				pos.colonne += 1
 			pos.ligne += 1
@@ -75,15 +88,23 @@ class Carte:
 			liste.append([element for element in ligne])
 		return liste
 
+	def nettoyer(self):
+		"""Permet d'enlever tous les \n"""
+		for ligne in self.liste_contenu:
+			while "\n" in ligne:
+				ligne.remove("\n")
+
 	def actualiser_liste_contenu(self, nouvelle_position):
 		self.liste_contenu = self.charger_comme_liste()
 		self.oter_robot()
+		self.nettoyer()
 		self.liste_contenu[nouvelle_position.ligne][nouvelle_position.colonne] = Carte.ROBOT	# On affecte nouvelle position robot
 		
 	def afficher_liste_contenu(self):
+		self.nettoyer()
 		for ligne in self.liste_contenu:
 			chaine=''
-			for element in ligne[:-1]:	# on ignore le \n de fin de ligne
+			for element in ligne:
 				chaine+=element
 			print(chaine)
 
