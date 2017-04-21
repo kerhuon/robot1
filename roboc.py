@@ -7,7 +7,7 @@ Exécutez-le avec Python pour lancer le jeu.
 
 """
 
-import os, platform, sys
+import os, platform, sys, re
 
 from carte import Carte
 from position import Position
@@ -43,10 +43,10 @@ def logo():
 		print("\nBIENVENUE DANS LE JEU DU ROBOT\n")
 
 def usage():
-	print("Le but du jeu est de faire sortir le robot du labyrinthe en atteignant la sortie 'U'.")
+	print("Le but du jeu est de faire sortir le robot 'X' du labyrinthe en atteignant la sortie 'U'.")
 	print("Vous ne pouvez pas traverser les murs 'O' mais vous pouvez franchir les portes '.'.")
 	print("Déplacements : indiquez une direction nord, sud, est ou ouest en tapant 'n', 's', 'e' ou 'o'.")
-	print("Le robot peut faire plusieurs pas (9 maximum) en indiquant un chiffre après la direction.")
+	print("Le robot peut faire plusieurs pas en indiquant un chiffre (chiffre 9 au maximum) après la direction.")
 	print("Exemple 's2' pour deux pas vers le sud.\n")
 	
 # *************** PLACE AU JEU ***************
@@ -77,7 +77,7 @@ def main():
 		carte = Carte(liste_cartes[choix-1][0], liste_cartes[choix-1][1])
 		robot = Robot(carte.position_robot)
 	except:
-		print("Carte non trouvée")
+		print("Carte non trouvée ou incorrecte !")
 		sys.exit(-1)
 
 	# Let's play!!!
@@ -88,11 +88,16 @@ def main():
 		if reponse == "quit" or reponse == 'q':
 			print("Au revoir !")
 			break
-		elif len(reponse) > 2:
+		if re.match(r"^[nseo][1-9]|^[nseo]", reponse):
+			if len(reponse) == 1:
+				robot.bouger(carte, reponse[0])
+			elif len(reponse) == 2:
+				robot.bouger(carte, reponse[0], int(reponse[1]))
+		else:
 			print("Mauvaise saisie")
 			usage()
 			continue
-		robot.bouger(carte, reponse[0])
+		
 		
 
 if __name__ == '__main__':

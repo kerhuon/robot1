@@ -23,13 +23,18 @@ class Robot:
 			elif direction == "o" and self.mouvement_possible(carte, "o"):
 				self.position.colonne -= 1
 			else:
-				print("MOUVEMENT INTERDIT")
+				if direction == "n":chaine = "LE NORD"
+				if direction == "s":chaine = "LE SUD"
+				if direction == "e":chaine = "L'EST"
+				if direction == "o":chaine = "L'OUEST"
+				print("\nMOUVEMENT INTERDIT VERS "+chaine+ " !!!")
 			if self.position.ligne == carte.position_sortie.ligne and self.position.colonne == carte.position_sortie.colonne:
 				carte.actualiser_liste_contenu(self.position)
 				carte.afficher_liste_contenu()				
 				print("\nFélicitations ! Vous avez gagné !")
 				sys.exit(0)
 			carte.actualiser_liste_contenu(self.position)
+			print("\n")
 			carte.afficher_liste_contenu()
 			
 
