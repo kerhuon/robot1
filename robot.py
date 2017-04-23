@@ -36,6 +36,7 @@ class Robot:
 			carte.actualiser_liste_contenu(self.position)
 			print("\n")
 			carte.afficher_liste_contenu()
+			carte.sauvegarder()
 			
 
 	def mouvement_possible(self, carte, direction = "n"):

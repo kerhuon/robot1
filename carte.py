@@ -108,6 +108,17 @@ class Carte:
 				chaine+=element
 			print(chaine)
 
+	def sauvegarder(self):
+		fichier = open(Carte.REPERTOIRE_CARTES + "_sauvegarde.txt", 'w')
+		self.nettoyer()
+		for ligne in self.liste_contenu:
+			chaine=''
+			for element in ligne:
+				chaine+=element
+			chaine+="\n"
+			fichier.write(chaine)
+		fichier.close()
+
 
 
 	

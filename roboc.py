@@ -27,7 +27,7 @@ def lister_cartes():
 	liste_cartes = []
 	for nom_fichier in os.listdir("cartes"):
 		if nom_fichier.endswith(".txt"):			
-			nom_carte = nom_fichier[:-3].lower()
+			nom_carte = nom_fichier[:-4].lower()
 			liste_cartes.append([nom_carte, nom_fichier])
 	return liste_cartes
 
@@ -65,20 +65,30 @@ def main():
 		
 	# Si il y a une partie sauvegardée, on l'affiche, à compléter
 	# TODO : vérif sauvegarde
-	sauvegarde = input("Il existe une partie sauvegardée, voulez-vous la continuer (oui/non) ? ")
-
-	# Choix de carte
-	choix = input("Choisissez votre labyrinthe : ")
-	try:
-		choix = int(choix)
-	except:
-		print("Mauvaise saisie")
-	try:
-		carte = Carte(liste_cartes[choix-1][0], liste_cartes[choix-1][1])
-		robot = Robot(carte.position_robot)
-	except:
-		print("Carte non trouvée ou incorrecte !")
-		sys.exit(-1)
+	sauvegarde = ''
+	if "_sauvegarde.txt" in os.listdir("cartes"):
+		sauvegarde = input("Il existe une partie sauvegardée, voulez-vous la continuer (oui/non) ? ")
+		sauvegarde = sauvegarde.lower()
+	if sauvegarde == "oui" or sauvegarde == "o":
+		try:
+			carte = Carte("sauvegarde", "_sauvegarde.txt")
+			robot = Robot(carte.position_robot)
+		except:
+			print("Problème de restauration !")
+			sys.exit(-1)
+	else:
+		# Choix de carte
+		choix = input("Choisissez votre labyrinthe : ")
+		try:
+			choix = int(choix)
+		except:
+			print("Mauvaise saisie")
+		try:
+			carte = Carte(liste_cartes[choix-1][0], liste_cartes[choix-1][1])
+			robot = Robot(carte.position_robot)
+		except:
+			print("Carte non trouvée ou incorrecte !")
+			sys.exit(-1)
 
 	# Let's play!!!
 	carte.afficher_liste_contenu()
