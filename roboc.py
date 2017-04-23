@@ -63,8 +63,7 @@ def main():
 		# affiche nom de carte : exemple --> 1 - facile.
 		print("  {} - {}".format(i + 1, element_carte[0]))	
 		
-	# Si il y a une partie sauvegardée, on l'affiche, à compléter
-	# TODO : vérif sauvegarde
+	# Vérification partie sauvegardée
 	sauvegarde = ''
 	if "_sauvegarde.txt" in os.listdir("cartes"):
 		sauvegarde = input("Il existe une partie sauvegardée, voulez-vous la continuer (oui/non) ? ")
@@ -76,8 +75,8 @@ def main():
 		except:
 			print("Problème de restauration !")
 			sys.exit(-1)
+	# Choix de labyrinthe/carte
 	else:
-		# Choix de carte
 		choix = input("Choisissez votre labyrinthe : ")
 		try:
 			choix = int(choix)

@@ -7,7 +7,6 @@ class Carte:
 	"""Classe représentant le labyrinthe (modèle) et la carte (vue)."""
 	# Parti pris : on ne se trimballe pas avec deux classes : Classe et Labyrinthe
 	# Car il s'agit de la même chose : labyrinthe utilisé pour le traitement, carte pour l'affichage
-
 	
 	REPERTOIRE_CARTES = "cartes/"
 	ROBOT = "X"
@@ -19,10 +18,7 @@ class Carte:
 	def __init__(self, nom, nom_de_fichier):
 		self.nom = nom
 		self.nom_de_fichier = nom_de_fichier
-
-		# Contenu brut sous forme de chaine, permet l'affichage pour le joueur
-		self.contenu = self.charger()
-
+		
 		# Contenu de la carte sous forme de liste de n listes (correspondant à n lignes).
 		# De la forme : [['O', 'O', 'O', 'O', 'O', O'], ['O', ' ', ' ', ' ', '.', 'X', ' '], etc...]
 		self.liste_contenu = self.charger_comme_liste()
@@ -66,13 +62,6 @@ class Carte:
 		"""Nombre de colonnes de la carte"""
 		return len(self.liste_contenu[0])-1	#on retire le \n
 	
-	def charger(self):
-		"""Depuis le fichier, contenu brut sous forme de chaine, permet l'affichage pour le joueur"""
-		fichier = open(Carte.REPERTOIRE_CARTES + self.nom_de_fichier, 'r')
-		lecture = fichier.read()
-		fichier.close()
-		return lecture
-
 	def oter_robot(self):
 		"""S'applique à list_contenu, ôte le robot et le remplace par un espace"""
 		self.liste_contenu[self.position_robot.ligne][self.position_robot.colonne] = Carte.VIDE
